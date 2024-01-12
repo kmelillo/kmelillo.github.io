@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idle Game</title>
+</head>
+<body>
+  <h1>Idle Game</h1>
+  <p>Open the browser console to see the game updates.</p>
+
+  <script>
+    // Your JavaScript code goes here
+
+    // Define initial game state
+    let gameState = {
+      resources: 0,
+      resourcePerSecond: 1,
+      upgrades: {
+        autoClicker: {
+          cost: 10,
+          increment: 1,
+          purchased: 0
+        }
+      }
+    };
+
+    // Function to update the game state every second
+    function updateGame() {
+      // Update resources based on resource per second
+      gameState.resources += gameState.resourcePerSecond;
+
+      // Display current state
+      console.log(`Resources: ${gameState.resources}`);
+
+      // Check for available upgrades
+      for (const upgrade in gameState.upgrades) {
+        const upgradeInfo = gameState.upgrades[upgrade];
+        console.log(`${upgrade}: ${upgradeInfo.purchased} purchased`);
+      }
+    }
+
+    // Function to purchase an upgrade
+    function purchaseUpgrade(upgrade) {
+      const upgradeInfo = gameState.upgrades[upgrade];
+
+      // Check if player has enough resources
+      if (gameState.resources >= upgradeInfo.cost) {
+        // Deduct the cost and apply the upgrade
+        gameState.resources -= upgradeInfo.cost;
+        gameState.resourcePerSecond += upgradeInfo.increment;
+        upgradeInfo.purchased++;
+
+        // Increase the cost for the next purchase
+        upgradeInfo.cost *= 2;
+
+        console.log(`Purchased ${upgrade}`);
+      } else {
+        console.log(`Not enough resources to purchase ${upgrade}`);
+      }
+    }
+
+    // Example: Purchase auto-clicker upgrade
+    purchaseUpgrade('autoClicker');
+
+    // Example: Run the game loop
+    setInterval(updateGame, 1000);
+  </script>
+</body>
+</html>
